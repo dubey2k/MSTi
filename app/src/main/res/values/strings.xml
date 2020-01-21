@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">MSTi</string>
+    <string-array name="MSI_branch">
+        <item>BCA</item>
+        <item>BBA</item>
+    </string-array>
+    <string-array name="MSIT_branch">
+        <item>CSE</item>
+        <item>IT</item>
+        <item>ECE</item>
+        <item>EEE</item>
+    </string-array>
+    <string-array name="Shift">
+        <item>Morning</item>
+        <item>Evening</item>
+    </string-array>
+    <string-array name="three_years">
+        <item>1st yr</item>
+        <item>2nd yr</item>
+        <item>3rd yr</item>
+    </string-array>
+    <string-array name="four_years">
+        <item>1st yr</item>
+        <item>2nd yr</item>
+        <item>3rd yr</item>
+        <item>4th yr</item>
+    </string-array>
 </resources>

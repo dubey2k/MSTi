@@ -11,7 +11,7 @@ import android.widget.Button;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
-    Button logout;
+    Button logout,tocreate;
     FirebaseAuth mAuth= FirebaseAuth.getInstance();
 
     @Override
@@ -19,8 +19,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        tocreate=findViewById(R.id.tocreate);
         logout = findViewById(R.id.logout);
 
+        tocreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,Create_Profile.class));
+            }
+        });
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
