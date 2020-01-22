@@ -39,6 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/circleImageView">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/student_enrollment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enrollment Number" />
@@ -205,12 +206,12 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
     <Button
-        android:id="@+id/registerbtn"
+        android:id="@+id/getStarted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:text="start"
+        android:text="Get Started"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
