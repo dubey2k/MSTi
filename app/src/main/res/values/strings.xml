@@ -25,4 +25,6 @@
         <item>3rd yr</item>
         <item>4th yr</item>
     </string-array>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

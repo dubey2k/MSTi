@@ -3,10 +3,14 @@ package com.example.msti;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -17,21 +21,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.msti.model.userData;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class Create_Profile extends AppCompatActivity {
 
+    private static final int PICK_IMAGE_REQUEST = 111;
+    private Uri imageUri;
+    private boolean imagePicked=false;
+
     Spinner branch, year;
+    CircleImageView chooseProfilePic;
     RadioGroup Gender, College;
     Button verifyID;
     Button getStart;
@@ -47,6 +61,10 @@ public class Create_Profile extends AppCompatActivity {
 
     ArrayAdapter<String> branch_Adapter_spinner;
     ArrayAdapter<String> year_Adapter_spinner;
+
+    FirebaseAuth auth;
+
+    userData user;
 
 
      private FirebaseFirestore database;
@@ -90,6 +108,7 @@ public class Create_Profile extends AppCompatActivity {
                                 android.R.layout.simple_spinner_dropdown_item, year_list);
                         year.setAdapter(year_Adapter_spinner);
                     }
+
                     {
                         branch_list.addAll(Arrays.asList(MSIT_branch));
                         branch_Adapter_spinner = new ArrayAdapter<>(Create_Profile.this,
@@ -115,7 +134,10 @@ public class Create_Profile extends AppCompatActivity {
         getStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(enrollNO.getText().equals(scanned_QR)){
+                if(enrollNO.getText().equals(scanned_QR) && !scanned_QR.isEmpty() && imagePicked){
+
+                    //user=new userData();
+
                     CollectionReference loginEnroll = database.collection(LOGIN_ENROLL);
                     loginEnroll.add(scanned_QR).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
@@ -124,9 +146,21 @@ public class Create_Profile extends AppCompatActivity {
                         }
                     });
                 }
+                else if(!imagePicked)
+                    Toast.makeText(Create_Profile.this,"Choose Profile Picture"
+                            ,Toast.LENGTH_LONG).show();
+
                 else
                     Toast.makeText(Create_Profile.this,"Invalid Enrollment No..."
                             ,Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        chooseProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseImage();
             }
         });
 
@@ -153,6 +187,10 @@ public class Create_Profile extends AppCompatActivity {
         MSIT_branch = getResources().getStringArray(R.array.MSIT_branch);
         MSIT_year = getResources().getStringArray(R.array.four_years);
         MSI_year = getResources().getStringArray(R.array.three_years);
+
+        chooseProfilePic = findViewById(R.id.chooseProfilePic);
+
+        auth=FirebaseAuth.getInstance();
 
     }
 
@@ -195,5 +233,30 @@ public class Create_Profile extends AppCompatActivity {
         }
     }
 
+    public void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            imageUri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+
+                ImageView imageView = findViewById(R.id.chooseProfilePic);
+                imageView.setImageBitmap(bitmap);
+                imagePicked = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

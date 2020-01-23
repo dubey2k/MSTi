@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/mainHome"
+        android:title="Home"/>
+    <item android:id="@+id/mainome"
+        android:title="Student"/>
+    <item android:id="@+id/mainHme"
+        android:title="Class"/>
 </menu>
