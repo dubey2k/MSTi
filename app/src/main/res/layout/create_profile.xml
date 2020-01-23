@@ -70,13 +70,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView5">
 
                 <RadioButton
-                    android:id="@+id/male"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Male" />
 
                 <RadioButton
-                    android:id="@+id/radioButton2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Female" />
@@ -136,21 +134,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView6">
 
                 <RadioButton
-                    android:id="@+id/msit"
                     android:checked="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="MSIT" />
 
                 <RadioButton
-                    android:id="@+id/msi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="MSI" />
             </RadioGroup>
 
             <Spinner
-                android:id="@+id/student_shift"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"

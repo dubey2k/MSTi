@@ -49,13 +49,14 @@ public class Create_Profile extends AppCompatActivity {
     ArrayAdapter<String> year_Adapter_spinner;
 
 
-     FirebaseFirestore database = FirebaseFirestore.getInstance();
+     private FirebaseFirestore database;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_profile);
+        database = FirebaseFirestore.getInstance();
         init();
 
 

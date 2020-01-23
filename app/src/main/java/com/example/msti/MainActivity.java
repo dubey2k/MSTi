@@ -1,23 +1,31 @@
 package com.example.msti;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     Button logout,tocreate;
     FirebaseAuth mAuth= FirebaseAuth.getInstance();
+    NavigationView navigationView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+         navigationView = findViewById(R.id.nav_view);
+
+         navigationView.setNavigationItemSelectedListener(this);
 
         tocreate=findViewById(R.id.tocreate);
         logout = findViewById(R.id.logout);
@@ -38,4 +46,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        return false;
+    }
 }
