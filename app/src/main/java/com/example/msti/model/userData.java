@@ -1,5 +1,7 @@
 package com.example.msti.model;
 
+import java.util.ArrayList;
+
 public class userData {
     private String name;
     private String phoneNo;
@@ -9,11 +11,13 @@ public class userData {
     private String branch;
     private String year;
     private String description;
-    private String Gender;
+    private String gender;
     private String dob;
     private String profilePic;
-    private String [] morePics;
+    private ArrayList<String> morePics;
 
+    public userData() {
+    }
 
     public userData(String name, String phoneNo, String enroll,
                     String college, String shift, String branch,
@@ -25,14 +29,14 @@ public class userData {
         this.shift = shift;
         this.branch = branch;
         this.year = year;
-        Gender = gender;
+        this.gender = gender;
         this.profilePic = profilePic;
     }
 
     public userData(String name, String phoneNo, String enroll
             , String college, String shift, String branch, String year
             , String description, String gender, String dob,
-                    String profilePic, String[] morePics) {
+                    String profilePic, ArrayList<String> morePics) {
         this.name = name;
         this.phoneNo = phoneNo;
         this.enroll = enroll;
@@ -41,10 +45,10 @@ public class userData {
         this.branch = branch;
         this.year = year;
         this.description = description;
-        Gender = gender;
+        this.gender = gender;
         this.dob = dob;
         this.profilePic = profilePic;
-        this.morePics = morePics;
+        this.morePics.addAll(morePics);
     }
 
     public String getName() {
@@ -80,7 +84,7 @@ public class userData {
     }
 
     public String getGender() {
-        return Gender;
+        return gender;
     }
 
     public String getDob() {
@@ -91,7 +95,7 @@ public class userData {
         return profilePic;
     }
 
-    public String[] getMorePics() {
+    public ArrayList<String> getMorePics() {
         return morePics;
     }
 

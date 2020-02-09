@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:shownIn="navigation_view">
 
-    <item android:id="@+id/mainHome"
+    <group android:checkableBehavior="single">
+    <item android:id="@+id/nav_Home"
         android:title="Home"/>
-    <item android:id="@+id/mainome"
-        android:title="Student"/>
-    <item android:id="@+id/mainHme"
-        android:title="Class"/>
+    <item android:id="@+id/nav_Setting"
+        android:title="Setting"/>
+    </group>
+    <item android:title="Contact Us" >
+        <menu >
+            <item android:id="@+id/email"
+                android:title="Email"/>
+            <item android:id="@+id/support_PhoneNo"
+                android:title="Phone Number"/>
+        </menu>
+    </item>
+    <item android:id="@+id/logout"
+        android:title="Log Out"/>
 </menu>

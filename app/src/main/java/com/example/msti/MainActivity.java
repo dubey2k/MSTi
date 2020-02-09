@@ -5,34 +5,56 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
+
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import com.example.msti.model.userData;
+import com.example.msti.nav_Fragments.Home_Fragment;
+import com.example.msti.nav_Fragments.Setting_Fragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import static com.example.msti.staticStrings.FILE_NAME;
+import static com.example.msti.staticStrings.USER_KEY;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    Button logout, tocreate;
+
     DrawerLayout drawerLayout;
     CircleImageView nav_profilePic;
     TextView nav_userName;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     NavigationView navigationView;
 
+    public static userData user;
+
+    public static String USER_GENDER ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
+        setUpNavBarHeader();
+
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout
+                , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        openFragment(new Home_Fragment());
+
+    }
+
+    private void init() {
         drawerLayout = findViewById(R.id.MainDrawerLayout);
         navigationView = findViewById(R.id.nav_view);
 
@@ -41,45 +63,60 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         nav_profilePic = headerView.findViewById(R.id.nav_profilePic);
         nav_profilePic.setImageResource(R.drawable.default_profile_pic);
         nav_userName = headerView.findViewById(R.id.nav_UserName);
+    }
 
-//
-//        tocreate = findViewById(R.id.tocreate);
-//        logout = findViewById(R.id.logout);
+    private void setUpNavBarHeader() {
 
-//        tocreate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, Create_Profile.class));
-//            }
-//        });
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mAuth.getInstance().signOut();
-//                startActivity(new Intent(MainActivity.this, Login.class));
-//                finish();
-//            }
-//        });
+        SharedPreferences preferences = getSharedPreferences(FILE_NAME,MODE_PRIVATE);
 
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MainFragment_Container())
-                .commit();
-
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout/*toolbar*/
-                , R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+        String s=preferences.getString(USER_KEY,"N/A");
+        Gson gson = new Gson();
+        user = gson.fromJson(s,userData.class);
+        nav_userName.setText(user.getName());
+        if(user.getGender().equals("Male"))
+            USER_GENDER="MALE_USER";
+        else
+            USER_GENDER="FEMALE_USER";
 
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
-            //add menu items
-            default:
-                Toast.makeText(MainActivity.this,"ok",Toast.LENGTH_LONG).show();
+            case R.id.nav_Home:
+                if (drawerLayout.isDrawerOpen(GravityCompat.START))
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                openFragment(new Home_Fragment());
+                return true;
+            case R.id.nav_Setting:
+                if (drawerLayout.isDrawerOpen(GravityCompat.START))
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                openFragment(new Setting_Fragment());
+                return true;
+            case R.id.logout:
+                if (drawerLayout.isDrawerOpen(GravityCompat.START))
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                mAuth.signOut();
+                Intent i = new Intent(MainActivity.this, Login.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                return true;
         }
-        return true;
+        return false;
+    }
+
+    public void openFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START);
+        else
+            super.onBackPressed();
     }
 }

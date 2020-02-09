@@ -3,6 +3,7 @@ package com.example.msti;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import static com.example.msti.staticStrings.scanned_QR;
 
 import com.google.zxing.Result;
 
@@ -21,7 +22,7 @@ public class scan_qr extends AppCompatActivity implements ZXingScannerView.Resul
 
     @Override
     public void handleResult(Result result) {
-        Create_Profile.scanned_QR=result.getText();
+        scanned_QR=result.getText();
         onBackPressed();
     }
 
